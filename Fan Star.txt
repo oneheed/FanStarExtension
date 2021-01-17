@@ -1,0 +1,55 @@
+http://cn.fannstar.tf.co.kr/
+
+// 投票
+https://cn.fannstar.tf.co.kr/rank/view/star
+
+votepop.open('star', 8996)
+setTimeout(function(){$('#vPoints').val(200); console.log("add vPoints");}, 500*1);
+setTimeout(function(){votepop.vote(); console.log("OK");}, 500*2);
+setTimeout(function(){document.vForm.submit(); console.log("submit");}, 500*3);
+
+// 每日簽到
+http://cn.fannstar.tf.co.kr/mission/check
+
+javascript:checkProc('O');
+javascript:checkProc('X');
+
+// 查閱新聞
+http://fannstar.tf.co.kr/mission/news
+
+setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*1, 1);
+setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*2, 3);
+setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*3, 6);
+
+var artid = $('meta[property="dable:item_id"]').attr('content');
+var code = checklangs;
+var artids = [];
+for(var i=0; i<30; i++) {
+    artids[i]=artid-i;
+    setTimeout(function(j){$.post( "/news/getpointv3", { artid: artids[j], code : code}).done(function( data ) { console.log(data); })}, 500*i, i);
+}
+console.log(artids);
+
+
+http://jp.fannstar.tf.co.kr/mission/news
+http://cn.fannstar.tf.co.kr/mission/news
+http://en.fannstar.tf.co.kr/mission/news
+http://vn.fannstar.tf.co.kr/mission/news
+
+var artid = suda.param.postid.split('|')[1].split('_')[1];
+var code = suda.param.postid.split('|')[1].split('_')[0];
+var artids = [];
+for(var i=0; i<30; i++) {
+    artids[i]=artid-i;
+    setTimeout(function(j){$.post( "/news/getpointv3", { artid: artids[j], code : code}).done(function( data ) { console.log(data); })}, 500*i, i);
+}
+console.log(artids);
+
+// 分享內容
+http://jp.fannstar.tf.co.kr/stars/best
+
+var shares = $(".share").map(function(index) {return this.id.split("_")[1];});
+for(var i=0; i<10; i++) {
+    setTimeout(function(j){javascript:twitter(shares[j],'http://jp.fannstar.tf.co.kr/stars/read?Idx='+shares[j]+'&amp;Code=jp');void 0; console.log(shares[j]);}, 500*i, i);
+}
+console.log(shares );
