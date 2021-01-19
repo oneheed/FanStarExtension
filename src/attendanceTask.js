@@ -31,6 +31,7 @@ script.textContent =`
             dataType:"json",
             success:function(ret){
                 console.log(ret.message);
+                alert('Finish!');
             },
             error:function(e){
                 alert(e.responseText);

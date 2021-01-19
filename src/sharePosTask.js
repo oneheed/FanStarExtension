@@ -20,18 +20,24 @@ script.textContent =`
             var data = "boardType="+boardType+"&Idx="+boardIdx+"&UserID="+userId+"&ActionType=share&ActionSns=tw";
             console.log(data);
         
-            $.ajax({
-                url:'/api/addactions',
-                type:"GET",
-                data:data,
-                dataType:"json",
-                success:function(ret){
-                    console.log(ret.message);
-                },
-                error:function(e){
-                    alert(e.responseText);
-                }
-            }); 
+            setTimeout(function(j, data){
+                $.ajax({
+                    url:'/api/addactions',
+                    type:"GET",
+                    data:data,
+                    dataType:"json",
+                    success:function(ret){
+                        ret.message = '('+j+')' + ret.message;
+                        console.log(ret.message);
+                        if(j === 9) {
+                            alert('Finish!');
+                        }
+                    },
+                    error:function(e){
+                        alert(e.responseText);
+                    }
+                }); 
+            }, 300*i, i,data)
         }
     } else {
         alert("该服务需要登录");
