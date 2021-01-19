@@ -54,7 +54,7 @@
             }
         };
         
-    el.bkg.console.log(el.bkg.tasks);
+    //el.bkg.console.log(el.bkg.tasks);
     if(el.bkg.methods.getDate() > el.bkg.tasks.updateDate) {
         el.bkg.methods.clearTaskEvent();     
     }
