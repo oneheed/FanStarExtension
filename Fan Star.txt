@@ -74,9 +74,10 @@ http://fannstar.tf.co.kr/api/addactions?boardType=News&Idx=1837792&UserID=tw_170
 (1)
 location.href = $(".newsImg.imgLiquidFill a")[0].href;
 
-setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*1, 1);
-setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*2, 3);
-//setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*3, 6);
+let pageid = document.URL.split('fannstar.tf.co.kr/news/view/')[1];
+setTimeout(function(j){addAction("adview"+j, pageid); console.log("adview"+j);}, 500*1, 1);
+setTimeout(function(j){addAction("adview"+j, pageid); console.log("adview"+j);}, 500*2, 3);
+//setTimeout(function(j){addAction("adview"+j, pageid); console.log("adview"+j);}, 500*3, 6);
 
 let artid = $('meta[property="dable:item_id"]').attr('content');
 let code = checklangs;
@@ -132,7 +133,7 @@ if(userId != null) {
         console.log(data);
 	
         $.ajax({
-            url:'/api/checkactions',
+            url:'/api/addactions',
             type:"GET",
             data:data,
             dataType:"json",
