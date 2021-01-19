@@ -1,13 +1,36 @@
 {
-  "name": "Getting Started Example",
+  "manifest_version": 2,
+  "name": "FAN N STAR",
   "version": "1.0",
-  "description": "Build an Extension!",
-  "permissions": ["storage", "activeTab"],
+  "description": "FAN N STAR extension",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "tabs",
+    "*://fannstar.tf.co.kr/*",
+    "*://jp.fannstar.tf.co.kr/*",
+    "*://cn.fannstar.tf.co.kr/*",
+    "*://en.fannstar.tf.co.kr/*",
+    "*://vn.fannstar.tf.co.kr/*"
+  ],
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
-  "browser_action": {},
-  
-  "manifest_version": 2
+  "icons": {
+    "32": "images/log_fns_32.png",
+    "38": "images/log_fns_38.png",
+    "64": "images/log_fns_64.png",
+    "128": "images/log_fns_128.png"
+  },
+  "browser_action": {
+    "default_icon": {
+      "16": "images/log_fns_32.png",
+      "32": "images/log_fns_38.png",
+      "38": "images/log_fns_38.png"
+    },
+    "default_title": "FAN N STAR",
+    "default_popup": "options.html",
+    "browser_style": true
+  }
 }
