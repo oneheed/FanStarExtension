@@ -4,8 +4,6 @@
   "version": "1.0",
   "description": "FAN N STAR extension",
   "permissions": [
-    "storage",
-    "activeTab",
     "tabs",
     "*://fannstar.tf.co.kr/*",
     "*://jp.fannstar.tf.co.kr/*",
