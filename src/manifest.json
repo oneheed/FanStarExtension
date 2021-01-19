@@ -13,7 +13,7 @@
   ],
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   "icons": {
     "32": "images/log_fns_32.png",
