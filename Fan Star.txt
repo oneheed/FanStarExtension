@@ -25,15 +25,15 @@ javascript:checkProc('O');
 javascript:checkProc('X');
 
 (2)
-var reUserId = /var userId = "(.*.)"/;
-var reBoardIdx = /var boardIdx = (.*.);/;
-var reBoardType = /var boardType = "(.*.)"/;
-var reActionType = /var ActionType = "(.*.)"/;
+let reUserId = /var userId = "(.*.)"/;
+let reBoardIdx = /var boardIdx = (.*.);/;
+let reBoardType = /var boardType = "(.*.)"/;
+let reActionType = /var ActionType = "(.*.)"/;
 
-var userId = reUserId.exec(checkProc);
-var boardIdx = reBoardIdx.exec(checkProc);
-var boardType = reBoardType.exec(checkProc);
-var actionType = reActionType.exec(checkProc);
+let userId = reUserId.exec(checkProc);
+let boardIdx = reBoardIdx.exec(checkProc);
+let boardType = reBoardType.exec(checkProc);
+let actionType = reActionType.exec(checkProc);
 
 if(userId != null) {
     userId = userId[1];
@@ -55,17 +55,7 @@ if(userId != null) {
 		data:data,
 		dataType:"json",
 		success:function(ret){
-			if(ret.res == 1){
-				alert(ret.message);
-			}else{
-				//location.reload();
-				if(ret.type== "okall"){
-					$('#foot_all_alert').delay( 1000 ).show();
-				}else{
-					$('#alertText').html(ret.message);
-					$('#CSW_SHARE_OK').delay( 1000 ).show();
-				}
-			}
+            console.log(ret.message);
 		},
 		error:function(e){
 			alert(e.responseText);
@@ -88,10 +78,10 @@ setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("a
 setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*2, 3);
 //setTimeout(function(j){addAction("adview"+j, thoth.param.pageid); console.log("adview"+j);}, 500*3, 6);
 
-var artid = $('meta[property="dable:item_id"]').attr('content');
-var code = checklangs;
-var artids = [];
-for(var i=0; i<30; i++) {
+let artid = $('meta[property="dable:item_id"]').attr('content');
+let code = checklangs;
+let artids = [];
+for(let i=0; i<30; i++) {
     artids[i]=artid-i;
     setTimeout(function(j){$.post( "/news/getpointv3", { artid: artids[j], code : code}).done(function( data ) { console.log(data); })}, 500*i, i);
 }
@@ -105,10 +95,10 @@ http://vn.fannstar.tf.co.kr/mission/news
 
 location.href = $(".newsImg.imgLiquidFill a")[0].href;
 
-var artid = suda.param.postid.split('|')[1].split('_')[1];
-var code = suda.param.postid.split('|')[1].split('_')[0];
-var artids = [];
-for(var i=0; i<30; i++) {
+let artid = suda.param.postid.split('|')[1].split('_')[1];
+let code = suda.param.postid.split('|')[1].split('_')[0];
+let artids = [];
+for(let i=0; i<30; i++) {
     artids[i]=artid-i;
     setTimeout(function(j){$.post( "/news/getpointv3", { artid: artids[j], code : code}).done(function( data ) { console.log(data); })}, 500*i, i);
 }
@@ -117,8 +107,50 @@ console.log(artids);
 // 分享內容
 http://jp.fannstar.tf.co.kr/stars/best
 
+ex:
+http://fannstar.tf.co.kr/api/addactions?boardType=Fan|kr&Idx=1745436&UserID=tw_1707826478&ActionType=share&ActionSns=tw
+http://fannstar.tf.co.kr/api/addactions?boardType=Fan|kr&Idx=1745302&UserID=tw_1707826478&ActionType=share&ActionSns=tw
+
+(1)
+let reUserId = /var userId = "(.*.)"/;
+let reBoardType = /var boardType = "(.*.)"/;
+
+let userId = reUserId.exec(addAction);
+let boardType = reBoardType.exec(addAction);
+
+if(userId != null) {
+    for(let i=0; i<10; i++) {
+        userId = userId[1];
+        boardIdx = $('.share')[i].id.split('_')[1];
+        boardType = boardType[1];
+
+        console.log(userId);
+        console.log(boardIdx);
+        console.log(boardType);
+
+        let data = "boardType="+boardType+"&Idx="+boardIdx+"&UserID="+userId+"&ActionType=share&ActionSns=tw";
+        console.log(data);
+	
+        $.ajax({
+            url:'/api/checkactions',
+            type:"GET",
+            data:data,
+            dataType:"json",
+            success:function(ret){
+                console.log(ret.message);
+            },
+            error:function(e){
+                alert(e.responseText);
+            }
+        }); 
+    }
+} else {
+    alert("该服务需要登录");
+}
+
+(2)
 var shares = $(".share").map(function(index) {return this.id.split("_")[1];});
-for(var i=0; i<10; i++) {
+for(let i=0; i<10; i++) {
     setTimeout(function(j){javascript:twitter(shares[j],'http://jp.fannstar.tf.co.kr/stars/read?Idx='+shares[j]+'&amp;Code=jp');void 0; console.log(shares[j]);}, 500*i, i);
 }
 console.log(shares );

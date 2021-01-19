@@ -20,19 +20,6 @@
 
             'bkg': chrome.extension.getBackgroundPage()
         },
-        queryUrls = [
-            '*://fannstar.tf.co.kr/*',
-            '*://jp.fannstar.tf.co.kr/*',
-            '*://cn.fannstar.tf.co.kr/*',
-            '*://en.fannstar.tf.co.kr/*',
-            '*://vn.fannstar.tf.co.kr/*'
-        ],
-        taskPath = {
-            'dailypoint': '\/mission\/dailypoint',
-            'attendance': '\/mission\/check',
-            'viewArticles': '\/mission\/news',
-            'sharePost': '\/stars\/best',
-        },
         tasks = {
             'attendanceNumKR': 0,
             'viewArticlesNumKR': 0,
@@ -42,182 +29,18 @@
             'viewArticlesNumVN': 0,
             'sharePostNumKR': 0,
         },
-        taskSettings = [
-            {
-                'name': 'KR',
-                'title': '',
-            },
-            {
-                'name': 'JP',
-                'title': 'jp',
-            },
-            {
-                'name': 'CN',
-                'title': 'cn',
-            },
-            {
-                'name': 'EN',
-                'title': 'en',
-            },
-            {
-                'name': 'VN',
-                'title': 'vn',
-            }
-        ],
         methods = {
             'checkEvent': () => {
-                methods.chekcAccount();
-                methods.execTask(taskPath.dailypoint, methods.chekcTask);
+                el.bkg.methods.checkEvent();
             },
             'attendanceEvent': () => {
-                var code = `
-                var s = document.createElement('script');
-                s.textContent = \`console.log('test');\`;
-                document.head.appendChild(s);
-                ` 
-
-                var toStore = "This text shall be stored";
-                //Script saves toStore and callback function provides confirmation
-                chrome.storage.sync.set({'value': [1, 2, 3, 4]}, function(){
-                    el.bkg.console.log("Value Saved!")
-                });
-
-                chrome.storage.sync.get('value', function(data){
-                    el.bkg.console.log("Value Got! Value is " + data.value)
-                });
-
-
-
-                el.bkg.test();
-
-                el.bkg.console.log('Value Got! Value is');
-                chrome.storage.sync.get('test', function(data){
-                    el.bkg.console.log("Value Got! Value is " + data.test)
-                });
-
-
+                el.bkg.methods.attendanceEvent();
             },
             'viewArticlesEvent': () => {
-
+                el.bkg.methods.viewArticlesEvent();
             },
-            'queryTabs': (callback) => {
-                chrome.tabs.query({ url: queryUrls }, callback);
-            },
-            'execTask': (taskPath, taskFun, execTaskNames=[]) => {
-                methods.queryTabs(tabs => {
-                    //el.bkg.console.log(tabs);
-  
-                    taskSettings.forEach(taskSetting => { 
-                        let re = new RegExp(methods.getRegex(taskSetting.title, taskPath));
-                        //el.bkg.console.log(re.source); // Check regex rule
-       
-                        var index = tabs.findIndex(tab => re.exec(tab.url));
-                        if(index === -1 && (execTaskNames.length === 0 || execTaskNames.includes(taskSetting.name))) {
-                            chrome.tabs.create({ url: methods.getTaskUrl(taskSetting.title, taskPath) }, function(createTab) {
-                                el.bkg.console.log(createTab.id); // Create Tab
-                                taskFun(taskSetting, createTab.id);
-                            });
-                        } else if (execTaskNames.length === 0 || execTaskNames.includes(taskSetting.name)) {
-                            el.bkg.console.log(tabs[index].id); // Create Tab
-                            taskFun(taskSetting, tabs[index].id);
-                        }
-                    });
-                }); 
-            },
-            'chekcAccount': (taskSetting, tabId) => {  
-            },
-            'chekcTask': (taskSetting, tabId) => {
-                if(taskSetting.name === 'KR') {
-                    methods.getTaskNum(tabId, `attendanceNum${taskSetting.name}`, 0);
-                    methods.getTaskNum(tabId, `sharePostNum${taskSetting.name}`, 2);
-                }
-                
-                methods.getTaskNum(tabId, `viewArticlesNum${taskSetting.name}`, 1);
-                
-                el.bkg.console.log(tasks); // Tasks num
-            },
-            'attendanceTask': (taskSetting, tabId) => {
-                var code = `$(function() {
-                    var reUserId = /var userId = "(.*.)"/;
-                    var reBoardIdx = /var boardIdx = (.*.);/;
-                    var reBoardType = /var boardType = "(.*.)"/;
-                    var reActionType = /var ActionType = "(.*.)"/;
-                    
-                    var userId = reUserId.exec(checkProc);
-                    var boardIdx = reBoardIdx.exec(checkProc);
-                    var boardType = reBoardType.exec(checkProc);
-                    var actionType = reActionType.exec(checkProc);
-                    
-                    if(userId != null) {
-                        userId = userId[1];
-                        boardIdx = boardIdx[1];
-                        boardType = boardType[1];
-                        actionType = actionType[1];
-                    
-                        //console.log(userId);
-                        //console.log(boardIdx);
-                        //console.log(boardType);
-                        //console.log(actionType);
-                
-                        var data = 'boardType='+boardType+'&Idx='+boardIdx+'&UserID='+userId+'&ActionType='+actionType+'&mode=';
-                        console.log(data);
-                        
-                        $.ajax({
-                            url:'/api/checkactions',
-                            type:"GET",
-                            data:data,
-                            dataType:"json",
-                            success:function(ret){
-                                if(ret.res == 1){
-                                    alert(ret.message);
-                                }else{
-                                    //location.reload();
-                                    if(ret.type== "okall"){
-                                        $('#foot_all_alert').delay( 1000 ).show();
-                                    }else{
-                                        $('#alertText').html(ret.message);
-                                        $('#CSW_SHARE_OK').delay( 1000 ).show();
-                                    }
-                                }
-                            },
-                            error:function(e){
-                                alert(e.responseText);
-                            }
-                        });
-                             
-                    } else {
-                        alert('该服务需要登录');
-                    }
-                });`;
-
-                chrome.tabs.executeScript(tabId, {
-                    code: `
-                    var s = document.createElement('script');
-                    s.textContent = \`${code}\`;
-                    document.head.appendChild(s);
-                    ` 
-                });
-            },
-            'viewArticlesTask': (taskSetting, tabId) => {
-               
-            },
-            'getRegex': (title, path) => {
-                return '\/\/' + title + '(|\.)fannstar\.tf\.co\.kr' + path;
-            },
-            'getTaskUrl': (title, path) => {
-                return 'https://' + title + '.fannstar.tf.co.kr' + path;
-            },
-            'getTaskNum': (tabId, valueName, index) => {
-                chrome.tabs.executeScript(tabId, {file: "jquery-1.12.1.min.js"}, function() {
-                    chrome.tabs.executeScript(tabId, { code: `parseInt($($('.tdstar_mission_tb .mission_num')[${index}]).text().split(' / ')[0])` }, result => {
-                        tasks[valueName] = result[0];
-                        methods.RenderNum();
-                    });
-                });  
-                // chrome.tabs.executeScript(tabId, { code: `alert('test')`, runAt: 'document_end' }, result => {
-                //     tasks[valueName] = result[0];
-                //     methods.RenderNum();
-                // });
+            'sharePosEvent': () => {
+                el.bkg.methods.sharePosEvent();
             },
             'RenderNum': () => {
                 el.attendanceNumKR.textContent = tasks.attendanceNumKR;
@@ -238,5 +61,5 @@
     el.viewArticlesCN.addEventListener('click', methods.Event);
     el.viewArticlesEN.addEventListener('click', methods.Event);
     el.viewArticlesVN.addEventListener('click', methods.Event);
-    el.sharePost.addEventListener('click', methods.Event);
+    el.sharePost.addEventListener('click', methods.sharePosEvent);
 })();

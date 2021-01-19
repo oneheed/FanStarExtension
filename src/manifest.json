@@ -32,12 +32,5 @@
     "default_title": "FAN N STAR",
     "default_popup": "options.html",
     "browser_style": true
-  },
-  "content_scripts": [
-    {
-      "matches": [ "*://cn.fannstar.tf.co.kr/*" ],
-      "js": [ "test.js" ],
-      "run_at": "document_end"
-    }
-  ]
+  }
 }
