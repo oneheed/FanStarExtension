@@ -4,6 +4,7 @@
             'clearTask': document.getElementById('clearTask'),
 
             'attendance': document.getElementById('attendance'),
+            'viewArticlesALL': document.getElementById('viewArticlesALL'),
             'viewArticlesKR': document.getElementById('viewArticlesKR'),
             'viewArticlesJP': document.getElementById('viewArticlesJP'),
             'viewArticlesCN': document.getElementById('viewArticlesCN'),
@@ -66,6 +67,7 @@
 
     el.attendance.addEventListener('click', methods.attendanceEvent);
     
+    el.viewArticlesALL.addEventListener('click', () => { methods.viewArticlesEvent(['KR', 'JP', 'CN', 'EN', 'VN']) });
     el.viewArticlesKR.addEventListener('click', () => { methods.viewArticlesEvent(['KR']) });
     el.viewArticlesJP.addEventListener('click', () => { methods.viewArticlesEvent(['JP']) });
     el.viewArticlesCN.addEventListener('click', () => { methods.viewArticlesEvent(['CN']) });
