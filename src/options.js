@@ -1,6 +1,7 @@
 (() => {
     let el = {
             'dailypoint': document.getElementById('dailypoint'),
+            'clearTask': document.getElementById('clearTask'),
 
             'attendance': document.getElementById('attendance'),
             'viewArticlesKR': document.getElementById('viewArticlesKR'),
@@ -18,20 +19,17 @@
             'viewArticlesNumVN': document.getElementById('viewArticlesNumVN'),
             'sharePostNumKR': document.getElementById('sharePostNumKR'),
 
+            'vote': document.getElementById('vote'),
+
             'bkg': chrome.extension.getBackgroundPage()
-        },
-        tasks = {
-            'attendanceNumKR': 0,
-            'viewArticlesNumKR': 0,
-            'viewArticlesNumJP': 0,
-            'viewArticlesNumCN': 0,
-            'viewArticlesNumEN': 0,
-            'viewArticlesNumVN': 0,
-            'sharePostNumKR': 0,
         },
         methods = {
             'checkEvent': () => {
-                el.bkg.methods.checkEvent();
+                el.bkg.methods.checkEvent(methods.renderNum);
+            },
+            'clearTaskEvent': () => {
+                el.bkg.methods.clearTaskEvent();
+                methods.renderNum();  
             },
             'attendanceEvent': () => {
                 el.bkg.methods.attendanceEvent();
@@ -39,27 +37,42 @@
             'viewArticlesEvent': (execTaskNames) => {
                 el.bkg.methods.viewArticlesEvent(execTaskNames);
             },
-            'sharePosEvent': () => {
-                el.bkg.methods.sharePosEvent();
+            'sharePostEvent': () => {
+                el.bkg.methods.sharePostEvent();
             },
-            'RenderNum': () => {
-                el.attendanceNumKR.textContent = tasks.attendanceNumKR;
-                el.viewArticlesNumKR.textContent = tasks.viewArticlesNumKR;
-                el.viewArticlesNumJP.textContent = tasks.viewArticlesNumJP;
-                el.viewArticlesNumCN.textContent = tasks.viewArticlesNumCN;
-                el.viewArticlesNumEN.textContent = tasks.viewArticlesNumEN;
-                el.viewArticlesNumVN.textContent = tasks.viewArticlesNumVN;
-                el.sharePostNumKR.textContent = tasks.sharePostNumKR;
+            'voteEvent': () => {
+                el.bkg.methods.voteEvent();
+            },
+            'renderNum': () => {
+                el.attendanceNumKR.textContent = el.bkg.tasks.attendanceNumKR;
+                el.viewArticlesNumKR.textContent = el.bkg.tasks.viewArticlesNumKR;
+                el.viewArticlesNumJP.textContent = el.bkg.tasks.viewArticlesNumJP;
+                el.viewArticlesNumCN.textContent = el.bkg.tasks.viewArticlesNumCN;
+                el.viewArticlesNumEN.textContent = el.bkg.tasks.viewArticlesNumEN;
+                el.viewArticlesNumVN.textContent = el.bkg.tasks.viewArticlesNumVN;
+                el.sharePostNumKR.textContent = el.bkg.tasks.sharePostNumKR;
             }
         };
+        
+    el.bkg.console.log(el.bkg.tasks);
+    if(el.bkg.methods.getDate() > el.bkg.tasks.updateDate) {
+        el.bkg.methods.clearTaskEvent();     
+    }
+    methods.renderNum();
 
     // Default event listeners
     el.dailypoint.addEventListener('click', methods.checkEvent);
+    el.clearTask.addEventListener('click', methods.clearTaskEvent);
+
     el.attendance.addEventListener('click', methods.attendanceEvent);
+    
     el.viewArticlesKR.addEventListener('click', () => { methods.viewArticlesEvent(['KR']) });
     el.viewArticlesJP.addEventListener('click', () => { methods.viewArticlesEvent(['JP']) });
     el.viewArticlesCN.addEventListener('click', () => { methods.viewArticlesEvent(['CN']) });
     el.viewArticlesEN.addEventListener('click', () => { methods.viewArticlesEvent(['EN']) });
     el.viewArticlesVN.addEventListener('click', () => { methods.viewArticlesEvent(['VN']) });
-    el.sharePost.addEventListener('click', methods.sharePosEvent);
+    
+    el.sharePost.addEventListener('click', methods.sharePostEvent);
+
+    el.vote.addEventListener('click', methods.voteEvent);
 })();

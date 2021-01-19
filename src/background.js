@@ -10,6 +10,7 @@ taskPath = {
     'attendance': '\/mission\/check',
     'viewArticles': '\/mission\/news',
     'sharePost': '\/stars\/best',
+    'vote': '\/rank\/view\/star',
 },
 taskSettings = [
     {
@@ -42,11 +43,21 @@ var tasks = {
     'viewArticlesNumEN': 0,
     'viewArticlesNumVN': 0,
     'sharePostNumKR': 0,
+    'updateDate': '',
 },
 methods = {
-    'checkEvent': () => {
-        methods.checkAccount();
-        methods.execTask(taskPath.dailypoint, methods.checkTask);
+    'clearTaskEvent': () => {
+        tasks.attendanceNumKR = 0;
+        tasks.viewArticlesNumKR = 0;
+        tasks.viewArticlesNumJP = 0;
+        tasks.viewArticlesNumCN = 0;
+        tasks.viewArticlesNumEN = 0;
+        tasks.viewArticlesNumVN = 0;
+        tasks.sharePostNumKR = 0;
+    },
+    'checkEvent': (callback) => {
+        //methods.checkAccount();
+        methods.execTask(taskPath.dailypoint, methods.checkTask, ['KR', 'JP', 'CN', 'EN', 'VN'], callback);
     },
     'attendanceEvent': () => {
         methods.execTask(taskPath.attendance, methods.attendanceTask, ['KR']);
@@ -54,10 +65,13 @@ methods = {
     'viewArticlesEvent': (execTaskNames) => {
         methods.execTask(taskPath.viewArticles, methods.viewArticlesTask, execTaskNames);
     },
-    'sharePosEvent': () => {
-        methods.execTask(taskPath.sharePost, methods.sharePosTask, ['KR']);
+    'sharePostEvent': () => {
+        methods.execTask(taskPath.sharePost, methods.sharePostTask, ['KR']);
     },
-    'execTask': (taskPath, taskFun, execTaskNames=[]) => {
+    'voteEvent': () => {
+        methods.execTask(taskPath.vote, methods.voteTask, ['CN']);
+    },
+    'execTask': (taskPath, taskFun, execTaskNames=[], callback=null) => {
         methods.queryTabs(tabs => {
             //console.log(tabs);
 
@@ -69,24 +83,24 @@ methods = {
                 if(index === -1 && (execTaskNames.length === 0 || execTaskNames.includes(taskSetting.name))) {
                     chrome.tabs.create({ url: methods.getTaskUrl(taskSetting.title, taskPath) }, function(createTab) {
                         //console.log(createTab.id); // Create Tab
-                        taskFun(taskSetting, createTab.id);
+                        taskFun(taskSetting, createTab.id, callback);
                     });
                 } else if (execTaskNames.length === 0 || execTaskNames.includes(taskSetting.name)) {
                     //console.log(tabs[index].id); // Create Tab
-                    taskFun(taskSetting, tabs[index].id);
+                    taskFun(taskSetting, tabs[index].id, callback);
                 }
             });
         }); 
     },
     'checkAccount': (taskSetting, tabId) => {  
     },
-    'checkTask': (taskSetting, tabId) => {
+    'checkTask': (taskSetting, tabId, callback) => {
         if(taskSetting.name === 'KR') {
-            methods.getTaskNum(tabId, `attendanceNum${taskSetting.name}`, 0);
-            methods.getTaskNum(tabId, `sharePostNum${taskSetting.name}`, 2);
+            methods.getTaskNum(tabId, `attendanceNum${taskSetting.name}`, 0, callback);
+            methods.getTaskNum(tabId, `sharePostNum${taskSetting.name}`, 2, callback);
         }
         
-        methods.getTaskNum(tabId, `viewArticlesNum${taskSetting.name}`, 1);
+        methods.getTaskNum(tabId, `viewArticlesNum${taskSetting.name}`, 1, callback);
         
         //console.log(tasks); // Tasks num
     },
@@ -108,18 +122,25 @@ methods = {
             chrome.tabs.remove(tabId);
         });      
     },
-    'sharePosTask': (taskSetting, tabId) => {
+    'sharePostTask': (taskSetting, tabId) => {
         chrome.tabs.executeScript(tabId, { file: 'sharePosTask.js' });
+    },
+    'voteTask': (taskSetting, tabId) => {
+        chrome.tabs.executeScript(tabId, { file: 'voteTask.js' });
     },
     'queryTabs': (callback) => {
         chrome.tabs.query({ url: queryUrls }, callback);
     },
-    'getTaskNum': (tabId, valueName, index) => {
+    'getTaskNum': (tabId, valueName, index, callback) => {
         chrome.tabs.executeScript(tabId, { code: `parseInt(document.getElementsByClassName('tdstar_mission_tb')[${index}].getElementsByClassName('mission_num')[0].innerText.split(' / ')[0])` }, result => {
             tasks[valueName] = result[0];
+            tasks['updateDate'] = methods.getDate();
 
-            console.log(result);
-            //methods.RenderNum();
+            // Render veiw
+            if(callback != null)
+                callback();
+
+            //console.log(result); //Task Num
         });
     },
     'getRegex': (title, path) => {
@@ -127,5 +148,13 @@ methods = {
     },
     'getTaskUrl': (title, path) => {
         return 'https://' + title + '.fannstar.tf.co.kr' + path;
+    },
+    'getDate': () => {
+        return (new Date())
+            .toISOString()
+            .replace(
+                /^(?<year>\d+)-(?<month>\d+)-(?<day>\d+)T.*$/,
+                '$<year>-$<month>-$<day>'
+            );
     }
 }

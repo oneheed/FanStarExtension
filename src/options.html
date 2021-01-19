@@ -27,12 +27,28 @@
             .button:hover {
               background-color: #c8e6c9;
             }
+
+            .image {
+                width: 150px;
+            }
+
+            .center {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
         </style>
     </head>
 
     <body id="app">
+        <img class="image center" src="images/logo_fns.png" alt="FAN N STAR">
+        <hr>
         <h3 for="dailypoint">檢查今天賺取星星:</h3>
-        <li><button class="button" id="dailypoint">檢查</button></li>
+        <li>
+            <button class="button" id="dailypoint">檢查</button>
+            <button class="button" id="clearTask">清除</button>
+        </li>
         
         <h3 for="attendance">每日簽到:</h3>
         <li><span id="attendanceNumKR">0</span> / 1 <button class="button" id="attendance">簽到</button></li>
@@ -46,6 +62,9 @@
 
         <h3 for="sharePost">分享內容:</h3>
         <li><span id="sharePostNumKR">0</span> / 10 <button class="button" id="sharePost">分享</button></li>
+        
+        <h3 for="vote">投票:</h3>
+        <li><button class="button" id="vote">投票</button></li>
         
         <script src="options.js"></script>
     </body>  
