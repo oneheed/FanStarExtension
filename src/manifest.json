@@ -4,9 +4,10 @@
   "version": "1.0",
   "description": "FAN N STAR extension",
   "permissions": [
-    "storage", 
-    "tabs", 
-    "*://fannstar.tf.co.kr/*", 
+    "storage",
+    "activeTab",
+    "tabs",
+    "*://fannstar.tf.co.kr/*",
     "*://jp.fannstar.tf.co.kr/*",
     "*://cn.fannstar.tf.co.kr/*",
     "*://en.fannstar.tf.co.kr/*",
@@ -31,5 +32,12 @@
     "default_title": "FAN N STAR",
     "default_popup": "options.html",
     "browser_style": true
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [ "*://cn.fannstar.tf.co.kr/*" ],
+      "js": [ "test.js" ],
+      "run_at": "document_end"
+    }
+  ]
 }

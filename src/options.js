@@ -70,12 +70,32 @@
                 methods.execTask(taskPath.dailypoint, methods.chekcTask);
             },
             'attendanceEvent': () => {
-                chrome.tabs.create({url: "https://www.google.com/"}, function (tab) {
-                    var c = "var s = document.createElement('script');\
-                        s.textContent = \"alert('test');\";\
-                        (document.head||document.documentElement).appendChild(s);"
-                    chrome.tabs.executeScript(tab.id, {code: c});
+                var code = `
+                var s = document.createElement('script');
+                s.textContent = \`console.log('test');\`;
+                document.head.appendChild(s);
+                ` 
+
+                var toStore = "This text shall be stored";
+                //Script saves toStore and callback function provides confirmation
+                chrome.storage.sync.set({'value': [1, 2, 3, 4]}, function(){
+                    el.bkg.console.log("Value Saved!")
                 });
+
+                chrome.storage.sync.get('value', function(data){
+                    el.bkg.console.log("Value Got! Value is " + data.value)
+                });
+
+
+
+                el.bkg.test();
+
+                el.bkg.console.log('Value Got! Value is');
+                chrome.storage.sync.get('test', function(data){
+                    el.bkg.console.log("Value Got! Value is " + data.test)
+                });
+
+
             },
             'viewArticlesEvent': () => {
 
@@ -114,7 +134,7 @@
                 
                 methods.getTaskNum(tabId, `viewArticlesNum${taskSetting.name}`, 1);
                 
-                //el.bkg.console.log(tasks); // Tasks num
+                el.bkg.console.log(tasks); // Tasks num
             },
             'attendanceTask': (taskSetting, tabId) => {
                 var code = `$(function() {
@@ -194,6 +214,10 @@
                         methods.RenderNum();
                     });
                 });  
+                // chrome.tabs.executeScript(tabId, { code: `alert('test')`, runAt: 'document_end' }, result => {
+                //     tasks[valueName] = result[0];
+                //     methods.RenderNum();
+                // });
             },
             'RenderNum': () => {
                 el.attendanceNumKR.textContent = tasks.attendanceNumKR;
