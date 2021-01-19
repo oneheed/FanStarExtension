@@ -51,8 +51,8 @@ methods = {
     'attendanceEvent': () => {
         methods.execTask(taskPath.attendance, methods.attendanceTask, ['KR']);
     },
-    'viewArticlesEvent': () => {
-        methods.execTask(taskPath.viewArticles, methods.viewArticlesTask);
+    'viewArticlesEvent': (execTaskNames) => {
+        methods.execTask(taskPath.viewArticles, methods.viewArticlesTask, execTaskNames);
     },
     'sharePosEvent': () => {
         methods.execTask(taskPath.sharePost, methods.sharePosTask, ['KR']);
@@ -94,7 +94,19 @@ methods = {
         chrome.tabs.executeScript(tabId, { file: 'attendanceTask.js' });
     },
     'viewArticlesTask': (taskSetting, tabId) => {
-        //chrome.tabs.executeScript(tabId, { file: 'viewArticles.js' });
+        chrome.tabs.executeScript(tabId, { code: `document.getElementsByClassName('newsImg')[0].getElementsByTagName('a')[0].href` }, result => { 
+            //console.log(result[0]); // new url
+            chrome.tabs.create({ url: result[0] }, function(createTab) {
+                //console.log(createTab.id); // Create Tab
+                if(taskSetting.name === 'KR') {
+                    chrome.tabs.executeScript(createTab.id, { file: 'viewArticlesKR.js' });
+                } else {
+                    chrome.tabs.executeScript(createTab.id, { file: 'viewArticlesOther.js' });
+                }
+            });
+
+            chrome.tabs.remove(tabId);
+        });      
     },
     'sharePosTask': (taskSetting, tabId) => {
         chrome.tabs.executeScript(tabId, { file: 'sharePosTask.js' });

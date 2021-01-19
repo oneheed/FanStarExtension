@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-script.textContent = `
+script.textContent =` 
     let reUserId = /var userId = "(.*.)"/;
     let reBoardIdx = /var boardIdx = (.*.);/;
     let reBoardType = /var boardType = "(.*.)"/;
@@ -24,18 +24,18 @@ script.textContent = `
         let data = 'boardType='+boardType+'&Idx='+boardIdx+'&UserID='+userId+'&ActionType='+actionType+'&mode=';
         console.log(data);
         
-        // $.ajax({
-        //     url:'/api/checkactions',
-        //     type:"GET",
-        //     data:data,
-        //     dataType:"json",
-        //     success:function(ret){
-        //         console.log(ret.message);
-        //     },
-        //     error:function(e){
-        //         alert(e.responseText);
-        //     }
-        // });           
+        $.ajax({
+            url:'/api/checkactions',
+            type:"GET",
+            data:data,
+            dataType:"json",
+            success:function(ret){
+                console.log(ret.message);
+            },
+            error:function(e){
+                alert(e.responseText);
+            }
+        });           
     } else {
         alert('该服务需要登录');
     }

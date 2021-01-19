@@ -36,8 +36,8 @@
             'attendanceEvent': () => {
                 el.bkg.methods.attendanceEvent();
             },
-            'viewArticlesEvent': () => {
-                el.bkg.methods.viewArticlesEvent();
+            'viewArticlesEvent': (execTaskNames) => {
+                el.bkg.methods.viewArticlesEvent(execTaskNames);
             },
             'sharePosEvent': () => {
                 el.bkg.methods.sharePosEvent();
@@ -56,10 +56,10 @@
     // Default event listeners
     el.dailypoint.addEventListener('click', methods.checkEvent);
     el.attendance.addEventListener('click', methods.attendanceEvent);
-    el.viewArticlesKR.addEventListener('click', methods.Event);
-    el.viewArticlesJP.addEventListener('click', methods.Event);
-    el.viewArticlesCN.addEventListener('click', methods.Event);
-    el.viewArticlesEN.addEventListener('click', methods.Event);
-    el.viewArticlesVN.addEventListener('click', methods.Event);
+    el.viewArticlesKR.addEventListener('click', () => { methods.viewArticlesEvent(['KR']) });
+    el.viewArticlesJP.addEventListener('click', () => { methods.viewArticlesEvent(['JP']) });
+    el.viewArticlesCN.addEventListener('click', () => { methods.viewArticlesEvent(['CN']) });
+    el.viewArticlesEN.addEventListener('click', () => { methods.viewArticlesEvent(['EN']) });
+    el.viewArticlesVN.addEventListener('click', () => { methods.viewArticlesEvent(['VN']) });
     el.sharePost.addEventListener('click', methods.sharePosEvent);
 })();

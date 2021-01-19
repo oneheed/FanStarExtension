@@ -1,10 +1,10 @@
 var script = document.createElement('script');
 script.textContent =`
-    let reUserId = /var userId = "(.*.)"/;
-    let reBoardType = /var boardType = "(.*.)"/;
+    var reUserId = /var userId = "(.*.)"/;
+    var reBoardType = /var boardType = "(.*.)"/;
 
-    let userId = reUserId.exec(addAction);
-    let boardType = reBoardType.exec(addAction);
+    var userId = reUserId.exec(addAction);
+    var boardType = reBoardType.exec(addAction);
 
     if(userId != null) {
         userId = userId[1];
@@ -20,18 +20,18 @@ script.textContent =`
             var data = "boardType="+boardType+"&Idx="+boardIdx+"&UserID="+userId+"&ActionType=share&ActionSns=tw";
             console.log(data);
         
-            // $.ajax({
-            //     url:'/api/checkactions',
-            //     type:"GET",
-            //     data:data,
-            //     dataType:"json",
-            //     success:function(ret){
-            //         console.log(ret.message);
-            //     },
-            //     error:function(e){
-            //         alert(e.responseText);
-            //     }
-            // }); 
+            $.ajax({
+                url:'/api/addactions',
+                type:"GET",
+                data:data,
+                dataType:"json",
+                success:function(ret){
+                    console.log(ret.message);
+                },
+                error:function(e){
+                    alert(e.responseText);
+                }
+            }); 
         }
     } else {
         alert("该服务需要登录");
