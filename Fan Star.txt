@@ -155,3 +155,50 @@ for(let i=0; i<10; i++) {
     setTimeout(function(j){javascript:twitter(shares[j],'http://jp.fannstar.tf.co.kr/stars/read?Idx='+shares[j]+'&amp;Code=jp');void 0; console.log(shares[j]);}, 500*i, i);
 }
 console.log(shares );
+
+
+// 鬧鐘
+http://en.fannstar.tf.co.kr/api/timeupnew?accessFrom=web&TplType=sun
+
+function getpoint()
+{
+    var data = "accessFrom=web&TplType=sun";
+	if(gprocess == "false"){
+		gprocess = "true";
+		$.ajax({url:'/api/timeupnew',type:"GET",data:data,dataType:"json",
+			success:function(ret){
+				if(ret.res == 1){
+					alert(ret.message);
+					gprocess = "false";
+				}else{
+					alert(ret.message);
+					$('#waitbutton').hide(); $('#waitdonebutton').show();
+					//location.href="/";
+				}
+			},
+			error:function(e){alert(e.responseText);gprocess = "false";}
+		});
+	}
+}
+
+var data = "accessFrom=web&TplType=sun";
+$.ajax({url:'/api/timeupnew',type:"GET",data:data,dataType:"json",
+    success:function(ret){
+        if(ret.res == 1){
+            alert(ret.message);
+            gprocess = "false";
+        }else{
+            alert(ret.message);
+            $('#waitbutton').hide(); $('#waitdonebutton').show();
+            //location.href="/";
+        }
+    },
+    error:function(e){alert(e.responseText);gprocess = "false";}
+});
+
+
+// 上傳
+http://cn.fannstar.tf.co.kr/stars/writedo
+
+$('.csInput')[0].value = 'Super Junior';
+$('.csTarea')[0].value = 'Super Junior';

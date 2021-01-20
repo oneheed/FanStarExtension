@@ -1,5 +1,6 @@
 (() => {
     let el = {
+        'allTask': document.getElementById('allTask'),
         'dailypoint': document.getElementById('dailypoint'),
         'clearTask': document.getElementById('clearTask'),
 
@@ -25,6 +26,11 @@
         'bkg': chrome.extension.getBackgroundPage()
     },
         methods = {
+            'allTask': () => {
+                el.bkg.methods.attendanceEvent();
+                el.bkg.methods.viewArticlesEvent(['KR']);
+                el.bkg.methods.sharePostEvent();
+            },
             'checkEvent': () => {
                 el.bkg.methods.checkEvent(methods.renderNum);
             },
@@ -62,12 +68,13 @@
     methods.renderNum();
 
     // Default event listeners
+    el.allTask.addEventListener('click', methods.allTask);
     el.dailypoint.addEventListener('click', methods.checkEvent);
     el.clearTask.addEventListener('click', methods.clearTaskEvent);
 
     el.attendance.addEventListener('click', methods.attendanceEvent);
 
-    el.viewArticlesALL.addEventListener('click', () => { methods.viewArticlesEvent(['KR', 'JP', 'CN', 'EN', 'VN']) });
+    el.viewArticlesALL.addEventListener('click', () => { methods.viewArticlesEvent(['JP', 'CN', 'EN', 'VN']) });
     el.viewArticlesKR.addEventListener('click', () => { methods.viewArticlesEvent(['KR']) });
     el.viewArticlesJP.addEventListener('click', () => { methods.viewArticlesEvent(['JP']) });
     el.viewArticlesCN.addEventListener('click', () => { methods.viewArticlesEvent(['CN']) });
