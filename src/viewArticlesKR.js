@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-script.textContent =`
+script.textContent = `
 $(function() {
     let pageid = document.URL.split('fannstar.tf.co.kr/news/view/')[1];
     setTimeout(function(j){addAction("adview"+j, pageid); console.log("adview"+j);}, 500*1, 1);
@@ -17,5 +17,5 @@ $(function() {
     console.log('viewArticlesKR');
 });
 `;
-(document.head||document.documentElement).appendChild(script);
+(document.head || document.documentElement).appendChild(script);
 //script.remove();

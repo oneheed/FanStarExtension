@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-script.textContent =` 
+script.textContent = ` 
     let reUserId = /var userId = "(.*.)"/;
     let reBoardIdx = /var boardIdx = (.*.);/;
     let reBoardType = /var boardType = "(.*.)"/;
@@ -41,5 +41,5 @@ script.textContent =`
         alert('该服务需要登录');
     }
 `;
-(document.head||document.documentElement).appendChild(script);
+(document.head || document.documentElement).appendChild(script);
 script.remove();

@@ -1,5 +1,5 @@
 var script = document.createElement('script');
-script.textContent =`
+script.textContent = `
     let reArtid = /artid: "(.*.)" ,/;
     let reCode = /code : "(.*.)"/;
 
@@ -14,5 +14,5 @@ script.textContent =`
     console.log(artids);
     console.log('viewArticlesOther');
 `;
-(document.head||document.documentElement).appendChild(script);
+(document.head || document.documentElement).appendChild(script);
 //script.remove();

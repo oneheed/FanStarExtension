@@ -12,7 +12,9 @@
     "*://vn.fannstar.tf.co.kr/*"
   ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": true
   },
   "icons": {
