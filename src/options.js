@@ -21,6 +21,9 @@
         'viewArticlesNumVN': document.getElementById('viewArticlesNumVN'),
         'sharePostNumKR': document.getElementById('sharePostNumKR'),
 
+        'timeupSun': document.getElementById('timeupSun'),
+        'timeupMoon': document.getElementById('timeupMoon'),
+
         'vote': document.getElementById('vote'),
 
         'bkg': chrome.extension.getBackgroundPage()
@@ -46,6 +49,9 @@
             },
             'sharePostEvent': () => {
                 el.bkg.methods.sharePostEvent();
+            },
+            'timeupEvent': (timeup) => {
+                el.bkg.methods.timeupEvent(() => { return timeup });
             },
             'voteEvent': () => {
                 el.bkg.methods.voteEvent();
@@ -80,6 +86,9 @@
     el.viewArticlesCN.addEventListener('click', () => { methods.viewArticlesEvent(['CN']) });
     el.viewArticlesEN.addEventListener('click', () => { methods.viewArticlesEvent(['EN']) });
     el.viewArticlesVN.addEventListener('click', () => { methods.viewArticlesEvent(['VN']) });
+
+    el.timeupSun.addEventListener('click', () => { methods.timeupEvent('sun') });
+    el.timeupMoon.addEventListener('click', () => { methods.timeupEvent('moon') });
 
     el.sharePost.addEventListener('click', methods.sharePostEvent);
 

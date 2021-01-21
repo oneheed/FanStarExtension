@@ -190,7 +190,20 @@ $.ajax({url:'/api/timeupnew',type:"GET",data:data,dataType:"json",
         }else{
             alert(ret.message);
             $('#waitbutton').hide(); $('#waitdonebutton').show();
-            //location.href="/";
+        }
+    },
+    error:function(e){alert(e.responseText);gprocess = "false";}
+});
+
+var data = "accessFrom=web&TplType=moon";
+$.ajax({url:'/api/timeupnew',type:"GET",data:data,dataType:"json",
+    success:function(ret){
+        if(ret.res == 1){
+            alert(ret.message);
+            gprocess = "false";
+        }else{
+            alert(ret.message);
+            $('#waitbutton').hide(); $('#waitdonebutton').show();
         }
     },
     error:function(e){alert(e.responseText);gprocess = "false";}

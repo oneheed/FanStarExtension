@@ -10,6 +10,7 @@ let queryUrls = [
         'attendance': '\/mission\/check',
         'viewArticles': '\/mission\/news',
         'sharePost': '\/stars\/best',
+        'timeup': '\/members\/mypoints',
         'vote': '\/rank\/view\/star',
     },
     taskSettings = [
@@ -68,6 +69,9 @@ var tasks = {
         'sharePostEvent': () => {
             methods.execTask(taskPath.sharePost, methods.sharePostTask, ['KR']);
         },
+        'timeupEvent': (callback) => {
+            methods.execTask(taskPath.timeup, methods.timeupTask, ['CN'], callback);
+        },
         'voteEvent': () => {
             methods.execTask(taskPath.vote, methods.voteTask, ['CN']);
         },
@@ -124,6 +128,18 @@ var tasks = {
         },
         'sharePostTask': (taskSetting, tabId) => {
             chrome.tabs.executeScript(tabId, { file: 'sharePosTask.js' });
+        },
+        'timeupTask': (taskSetting, tabId, callback) => {
+            var timeup = callback();
+            chrome.tabs.executeScript(tabId,
+                {
+                    code: `var script = document.createElement('script');
+                        script.textContent = \`var timeup = '${timeup}';\`;
+                        (document.head || document.documentElement).appendChild(script);`
+                },
+                function () {
+                    chrome.tabs.executeScript(tabId, { file: 'timeupTask.js' });
+                });
         },
         'voteTask': (taskSetting, tabId) => {
             chrome.tabs.executeScript(tabId, { file: 'voteTask.js' });
