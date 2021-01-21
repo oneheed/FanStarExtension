@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>FAN N STAR Options</title>
     <style>
-        #app {
-            width: 250px;
-            padding: 5px 20px;
+        ul {
+            margin: 5px;
+        }
+
+        h3 {
+            margin: 5px;
         }
 
         .button {
@@ -32,10 +35,6 @@
             width: 80px;
         }
 
-        h4 {
-            margin: 5px;
-        }
-
         .csHeader {
             background: #00a8ff;
         }
@@ -46,6 +45,11 @@
             margin-right: auto;
             width: 50%;
         }
+
+        #app {
+            width: 250px;
+            padding: 5px 20px;
+        }
     </style>
 </head>
 
@@ -54,31 +58,41 @@
         <img class="image center" src="images/logo_fns.png" alt="FAN N STAR">
     </div>
     <hr>
-    <h4 for="dailypoint">檢查今天賺取星星:</h4>
-    <li>
-        <button class="button" id="dailypoint">檢查</button>
-        <button class="button" id="clearTask">清除</button>
-    </li>
-    <li>
-        <button class="button" id="allTask">任務</button>
-    </li>
+    <h3 for="dailypoint">檢查今天賺取星星:</h3>
+    <ul>
+        <li>
+            <button class="button" id="allTask">任務</button>
+        </li>
+        <li>
+            <button class="button" id="dailypoint">檢查</button>
+            <button class="button" id="clearTask">清除</button>
+        </li>
+    </ul>
 
-    <h4 for="attendance">每日簽到:</h4>
-    <li><span id="attendanceNumKR">0</span> / 1 <button class="button" id="attendance">簽到</button></li>
+    <h3 for="attendance">每日簽到:</h3>
+    <ul>
+        <li><span id="attendanceNumKR">0</span> / 1 <button class="button" id="attendance">簽到</button></li>
+    </ul>
 
-    <h4 for="viewArticles">查閱新聞:</h4>
-    <li>KR任務排除</span></span><button class="button" id="viewArticlesALL">新聞任務</button></li>
-    <li><span id="viewArticlesNumKR">0</span> / 30 <button class="button" id="viewArticlesKR">KR任務</button></li>
-    <li><span id="viewArticlesNumJP">0</span> / 30 <button class="button" id="viewArticlesJP">JP任務</button></li>
-    <li><span id="viewArticlesNumCN">0</span> / 30 <button class="button" id="viewArticlesCN">CN任務</button></li>
-    <li><span id="viewArticlesNumEN">0</span> / 30 <button class="button" id="viewArticlesEN">EN任務</button></li>
-    <li><span id="viewArticlesNumVN">0</span> / 30 <button class="button" id="viewArticlesVN">VN任務</button></li>
+    <h3 for="viewArticles">查閱新聞:</h3>
+    <ul>
+        <li>KR任務排除</span></span><button class="button" id="viewArticlesALL">新聞任務</button></li>
+        <li><span id="viewArticlesNumKR">0</span> / 30 <button class="button" id="viewArticlesKR">KR任務</button></li>
+        <li><span id="viewArticlesNumJP">0</span> / 30 <button class="button" id="viewArticlesJP">JP任務</button></li>
+        <li><span id="viewArticlesNumCN">0</span> / 30 <button class="button" id="viewArticlesCN">CN任務</button></li>
+        <li><span id="viewArticlesNumEN">0</span> / 30 <button class="button" id="viewArticlesEN">EN任務</button></li>
+        <li><span id="viewArticlesNumVN">0</span> / 30 <button class="button" id="viewArticlesVN">VN任務</button></li>
+    </ul>
 
-    <h4 for="sharePost">分享內容:</h4>
-    <li><span id="sharePostNumKR">0</span> / 10 <button class="button" id="sharePost">分享</button></li>
+    <h3 for="sharePost">分享內容:</h3>
+    <ul>
+        <li><span id="sharePostNumKR">0</span> / 10 <button class="button" id="sharePost">分享</button></li>
+    </ul>
 
-    <h4 for="vote">投票:</h4>
-    <li><button class="button" id="vote">投票</button></li>
+    <h3 for="vote">投票:</h3>
+    <ul>
+        <li><button class="button" id="vote">投票</button></li>
+    </ul>
 
     <script src="options.js"></script>
 </body>
