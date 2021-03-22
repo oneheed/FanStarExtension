@@ -1,3 +1,5 @@
+// 查閱新聞 Other
+
 var script = document.createElement('script');
 script.textContent = `
     let reArtid = /artid: "(.*.)" ,/;

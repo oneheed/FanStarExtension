@@ -215,3 +215,54 @@ http://cn.fannstar.tf.co.kr/stars/writedo
 
 $('.csInput')[0].value = 'Super Junior';
 $('.csTarea')[0].value = 'Super Junior';
+
+
+// 粉絲團
+http://fannstar.tf.co.kr/stars/community
+
+(1)
+let idx = new URL($("link[rel=canonical]")[0].href).searchParams.get('Idx');
+javascript:fnsboard.addAction('recommend',idx);
+
+let idx = new URL($("link[rel=canonical]")[0].href).searchParams.get('Idx');
+for(let i=0; i<10; i++) {
+    idx=idx-i;
+    setTimeout(function(j){javascript:fnsboard.addAction('recommend', j); console.log(j);}, 500*i, idx);
+}
+
+(2)
+ex: boardType=BoardFan_kr&Idx=2121395&UserID=tw_1707826478&ActionType=recommend
+
+let reUserId = /var userId = "(.*.)"/;
+let userId = reUserId.exec(openwrite);
+
+if(userId != null) {
+    userId = userId[1];
+	let boardType = 'BoardFan_kr';
+	let flag = 'recommend';
+		
+	for(let i=0; i<10; i++) {		
+		setTimeout(function(j){
+			let boardIdx = list[j].Idx;
+			let data = `boardType=${boardType}&Idx=${boardIdx}&UserID=${userId}&ActionType=${flag}`;
+			
+			//console.log(data)
+			
+			$.ajax({
+				url:'/api/addactions',
+				type:"GET",
+				data:data,
+				dataType:"json",
+				success:function(ret){
+					console.log(ret);
+				},
+				error:function(e){
+					console.log(e);
+				}
+			});
+			
+		}, 100*i, i);
+	}
+} else {
+    alert("该服务需要登录");
+}

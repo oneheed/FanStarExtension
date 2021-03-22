@@ -1,3 +1,5 @@
+// 分享內容
+
 var script = document.createElement('script');
 script.textContent = `
     var reUserId = /var userId = "(.*.)"/;

@@ -1,3 +1,5 @@
+// 查閱新聞 KR
+
 var script = document.createElement('script');
 script.textContent = `
     $(function () {

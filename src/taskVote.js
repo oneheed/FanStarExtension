@@ -1,3 +1,5 @@
+// 投票
+
 var script = document.createElement('script');
 script.textContent = `
     var voteId = $('.RKname stt:contains("Super Junior")')[0].id.split('_')[1]

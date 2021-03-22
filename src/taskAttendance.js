@@ -1,3 +1,5 @@
+// 每日簽到
+
 var script = document.createElement('script');
 script.textContent = ` 
     let reUserId = /var userId = "(.*.)"/;

@@ -1,3 +1,5 @@
+// 鬧鐘
+
 var script = document.createElement('script');
 script.textContent = `
     var data = 'accessFrom=web&TplType=' + timeup;
